@@ -6,7 +6,7 @@ import PiggleGame from "./PiggleGame";
 function App() {
   return (
     <div className="App">
-      <h1>Piggle</h1>
+      <h1>PIGGLE</h1>
       <PiggleGame />
     </div>
   );

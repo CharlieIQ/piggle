@@ -5,6 +5,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* This image was generated using Gemini AI */
+  background-image: url("GameImages/background.jpeg");
+  background-size: 100% 150%;
 }
 
 code {
@@ -26,6 +29,18 @@ body {
   background-color: #2de7f8;
 }
 
+#shotsLeft{
+  display: block;
+  width: 25%;
+  margin: 10px auto;
+  background-color: lightblue;
+  border: 2px solid black;
+  border-radius: 10px;
+  font-size: 25px;
+}
+
 h1 {
-  color: #333;
+  color: #000000;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 60px;
 }

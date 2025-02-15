@@ -15,14 +15,17 @@ import piggleBall from "./GameImages/piggleBall.png";
 export default function PiggleGame() {
     // Reference to canvas element
     const canvasRef = useRef(null);
+    /* Canvas size constants */
+    const CANVAS_HEIGHT = 500;
+    const CANVAS_WIDTH = 400;
 
-    // Constants for game mechanics
-    const BALL_GRAVITY = 0.03;
+    /* Constants for game mechanics */
+    const BALL_GRAVITY = 0.025;
     const MAX_SHOTS = 10;
     const NUMBER_OF_PEGS = 20;
     const PEG_RADIUS = 15;
 
-    // Constant for game sprites
+    /* Constants for game sprites */
     const cannonImage = useRef(new Image());
     const piggleImage = useRef(new Image());
 
@@ -37,15 +40,15 @@ export default function PiggleGame() {
     const [shotsLeft, setShotsLeft] = useState(MAX_SHOTS);
     const [gameMessage, setGameMessage] = useState("");
 
+
     /**
      * This method will generate the pegs randomly
      * @returns The pegs generated in a random
      */
     const generatePegsRandomly = () => (
-    
         Array.from({ length: NUMBER_OF_PEGS }, () => ({
-            x: Math.random() * 380 + 10,
-            y: Math.random() * 300 + 100,
+            x: (Math.random() * 380) + 10,
+            y: (Math.random() * 300) + 100,
             radius: PEG_RADIUS,
             hit: false
         }))
@@ -103,23 +106,33 @@ export default function PiggleGame() {
         return pegs;
     };
 
+    /**
+     * Generate pegs in a hexagonal formation
+     * @returns Pegs generated in a hexagon
+     */
     const generatePegsHexagonal = () => {
         let pegs = [];
-        const rows = 4;
-        const cols = 4;
-        const spacing = 60;
-
+        const rows = 5;  // Number of rows (adjust as needed)
+        const spacing = 50;  // Distance between pegs
+        const startX = 150;  
+        const startY = 150;  
+    
         for (let row = 0; row < rows; row++) {
-            for (let col = 0; col < cols; col++) {
-                const offsetX = (row % 2 === 0) ? 0 : spacing / 2;
+            const pegsInRow = rows + 1 - Math.abs(row - Math.floor(rows / 2)); // Creates a hexagonal pattern
+            
+            // Every other row should be shifted to the right by half a peg's width
+            let offsetX = (row % 2 === 1) ? spacing / 2 : 0; 
+            
+            for (let col = 0; col < pegsInRow; col++) {
                 pegs.push({
-                    x: 100 + (col * spacing + offsetX),
-                    y: 200 + (row * spacing * Math.sqrt(3) / 2),
+                    x: startX + col * spacing + offsetX, 
+                    y: startY + row * (Math.sqrt(3) * spacing / 2), 
                     radius: PEG_RADIUS,
                     hit: false
                 });
             }
         }
+    
         return pegs;
     };
 
@@ -255,7 +268,7 @@ export default function PiggleGame() {
         };
 
         /**
-         * Logic to handle game collisions
+         * Logic to handle peg collisions
          */
         const handleCollisions = () => {
             // Checks peg if it was hit
@@ -286,9 +299,15 @@ export default function PiggleGame() {
                 ball.dy += BALL_GRAVITY;
                 ball.x += ball.dx;
                 ball.y += ball.dy;
-
-                if (ball.x - ball.radius < 0 || ball.x + ball.radius > canvas.width || ball.y + ball.radius <= 0) {
+                
+                // For ball hitting walls
+                if (ball.x - ball.radius < 0 || ball.x + ball.radius > canvas.width) {
                     ball.dx *= -1;
+                }
+
+                // For ball hitting ceiling
+                if (ball.y + ball.radius < 0){
+                    ball.dy *= -1;
                 }
 
                 if (ball.y + ball.radius > canvas.height) {
@@ -352,18 +371,46 @@ export default function PiggleGame() {
         setCannonAngle(Math.atan2(mouseY - 50, mouseX - 200));
     };
 
+    const resetgameRandom = () => {
+        // Reset ball state
+        ballRef.current = {
+            x: 200, y: 50, dx: 0, dy: 0, radius: 10, launched: false
+        };
+    
+        // Reset pegs
+        const pegGeneration = Math.floor(Math.random() * 5);
+        let pegGenShape;
+        switch (pegGeneration) {
+            case 0: pegGenShape = generatePegsRandomly(); break;
+            case 1: pegGenShape = generatePegsCircular(); break;
+            case 2: pegGenShape = generatePegsHexagonal(); break;
+            case 3: pegGenShape = generatePegsTriangular(); break;
+            case 4: pegGenShape = generatePegsGrid(); break;
+            default: pegGenShape = generatePegsRandomly();
+        }
+        pegs.current = pegGenShape;
+    
+        // Reset game state
+        setShotsLeft(MAX_SHOTS);
+        setGameMessage("");
+    };
+    
+
     return (
         <div style={{ textAlign: "center" }}>
             <p id="shotsLeft">Shots Left: {shotsLeft}</p>
             {gameMessage && <h2>{gameMessage}</h2>}
             <canvas
                 ref={canvasRef}
-                width={400}
-                height={500}
+                width={CANVAS_WIDTH}
+                height={CANVAS_HEIGHT}
                 className="border"
                 onClick={launchBall}
                 onMouseMove={handleMouseMove}
             />
+            <button id="newGameButtonRandom" onClick={resetgameRandom} style={{ marginTop: "10px", padding: "10px", fontSize: "16px" }}>
+            Start a random new game!
+            </button>
         </div>
     );
 }

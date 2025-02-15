@@ -4,6 +4,9 @@
  * @author Charlie McLaughlin
  */
 import { useEffect, useRef, useState } from "react";
+// Import cannon sprite
+import PigCannon from "./GameImages/PigCannon.png";
+
 
 /**
  * This function is the main game runner for the game
@@ -17,6 +20,8 @@ export default function PiggleGame() {
     const BALL_GRAVITY = 0.03;
     const MAX_SHOTS = 10;
     const NUMBER_OF_PEGS = 20;
+    // Constant for game sprites
+    const cannonImage = useRef(new Image());
 
     // Ball state variables
     const ballRef = useRef({
@@ -173,16 +178,18 @@ export default function PiggleGame() {
         const canvas = canvasRef.current;
         const ctx = canvas.getContext("2d");
         let animationFrameId;
-        
+        cannonImage.current.src = PigCannon;
+
         /**
          * Method to generate the cannon
          */
         const drawCannon = () => {
             ctx.save();
+            // Move pivot point to the cannon's base
             ctx.translate(200, 50);
             ctx.rotate(cannonAngle);
-            ctx.fillStyle = "black";
-            ctx.fillRect(-10, -10, 30, 20);
+            // Adjust size & position
+            ctx.drawImage(cannonImage.current, -15, -30, 30, 60);
             ctx.restore();
         };
 
@@ -261,7 +268,7 @@ export default function PiggleGame() {
                 handleCollisions();
             }
         };
-        
+
         /**
          * Check if game is won
          */
@@ -272,7 +279,7 @@ export default function PiggleGame() {
                 setGameMessage("You Lose!");
             }
         };
-        
+
         /**
          * Draw all of the elements on the canvas
          */

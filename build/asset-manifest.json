@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/piggle/static/css/main.f16b5dd0.css",
+    "main.js": "/piggle/static/js/main.663778b6.js",
+    "static/js/488.635d0aed.chunk.js": "/piggle/static/js/488.635d0aed.chunk.js",
+    "index.html": "/piggle/index.html",
+    "main.f16b5dd0.css.map": "/piggle/static/css/main.f16b5dd0.css.map",
+    "main.663778b6.js.map": "/piggle/static/js/main.663778b6.js.map",
+    "488.635d0aed.chunk.js.map": "/piggle/static/js/488.635d0aed.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f16b5dd0.css",
+    "static/js/main.663778b6.js"
+  ]
+}

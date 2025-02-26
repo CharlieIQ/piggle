@@ -112,21 +112,21 @@ export default function PiggleGame() {
      */
     const generatePegsHexagonal = () => {
         let pegs = [];
-        const rows = 5;  // Number of rows (adjust as needed)
-        const spacing = 50;  // Distance between pegs
-        const startX = 150;  
-        const startY = 150;  
+        const rows = 5;  // Number of rows
+        const cols = 5;  // Number of columns
+        const spacing = 50; // Horizontal spacing between pegs
+        const startX = 100; // Initial X position
+        const startY = 150; // Initial Y position
+        const verticalSpacing = spacing * Math.sqrt(3) / 2; // Correct vertical spacing for hex grid
     
         for (let row = 0; row < rows; row++) {
-            const pegsInRow = rows + 1 - Math.abs(row - Math.floor(rows / 2)); // Creates a hexagonal pattern
-            
-            // Every other row should be shifted to the right by half a peg's width
-            let offsetX = (row % 2 === 1) ? spacing / 2 : 0; 
-            
-            for (let col = 0; col < pegsInRow; col++) {
+            // Shift odd-numbered rows slightly right (half of the spacing)
+            const rowOffset = (row % 2 === 0) ? 0 : spacing / 2;
+    
+            for (let col = 0; col < cols; col++) {
                 pegs.push({
-                    x: startX + col * spacing + offsetX, 
-                    y: startY + row * (Math.sqrt(3) * spacing / 2), 
+                    x: startX + col * spacing + rowOffset, // Apply offset only to odd rows
+                    y: startY + row * verticalSpacing, // Correct hexagonal spacing
                     radius: PEG_RADIUS,
                     hit: false
                 });
@@ -135,6 +135,8 @@ export default function PiggleGame() {
     
         return pegs;
     };
+    
+    
 
     /**
      * Generate the pegs in a triangular shape
@@ -235,17 +237,17 @@ export default function PiggleGame() {
         */
         const drawBall = () => {
             var ballSize = 2.5
-            // Draw the ball image
+            // Draw the pig sprite
             if (ballRef.current.launched) {
                 ctx.drawImage(
                     // The image reference
                     piggleImage.current,   
-                    // X position of the ball
+                    // x position of the ball
                     ballRef.current.x - ballRef.current.radius,
-                    // Y position of the ball
-                    ballRef.current.y - ballRef.current.radius,   
-                    ballRef.current.radius * ballSize,   // Width of the image (diameter of the ball)
-                    ballRef.current.radius * ballSize    // Height of the image (diameter of the ball)
+                    // y position of the ball
+                    ballRef.current.y - ballRef.current.radius, 
+                    ballRef.current.radius * ballSize,   
+                    ballRef.current.radius * ballSize
                 );
             }
         };
@@ -271,19 +273,23 @@ export default function PiggleGame() {
          * Logic to handle peg collisions
          */
         const handleCollisions = () => {
-            // Checks peg if it was hit
+            // Checks each peg if it was hit
             pegs.current.forEach(peg => {
+                // Ignore if peg is hit
                 if (peg.hit) return;
                 const dx = ballRef.current.x - peg.x;
                 const dy = ballRef.current.y - peg.y;
                 const distance = Math.sqrt(dx * dx + dy * dy);
                 // Calculate if peg was hit
                 if (distance < ballRef.current.radius + peg.radius) {
+                    // Get the direction of the collision by dividing with the distance
                     const normalX = dx / distance;
                     const normalY = dy / distance;
+                    // Get the ball speed value by taking the dot product
                     const dotProduct = ballRef.current.dx * normalX + ballRef.current.dy * normalY;
                     ballRef.current.dx -= 2 * dotProduct * normalX;
                     ballRef.current.dy -= 2 * dotProduct * normalY;
+                    // Mark the peg as hit
                     peg.hit = true;
                 }
             });
@@ -300,16 +306,17 @@ export default function PiggleGame() {
                 ball.x += ball.dx;
                 ball.y += ball.dy;
                 
-                // For ball hitting walls
+                // For ball hitting walls (flip x speed)
                 if (ball.x - ball.radius < 0 || ball.x + ball.radius > canvas.width) {
                     ball.dx *= -1;
                 }
 
-                // For ball hitting ceiling
+                // For ball hitting ceiling (flip y speed)
                 if (ball.y + ball.radius < 0){
                     ball.dy *= -1;
                 }
-
+                
+                // If ball goes out of bounds on the bottom of the screen
                 if (ball.y + ball.radius > canvas.height) {
                     ball.launched = false;
                     ball.x = 200;
@@ -361,7 +368,6 @@ export default function PiggleGame() {
     };
     /**
      * Method that will move the cannon with the mouse position
-     * @param {*} event 
      */
     const handleMouseMove = (event) => {
         const canvas = canvasRef.current;
@@ -376,7 +382,7 @@ export default function PiggleGame() {
         ballRef.current = {
             x: 200, y: 50, dx: 0, dy: 0, radius: 10, launched: false
         };
-    
+
         // Reset pegs
         const pegGeneration = Math.floor(Math.random() * 5);
         let pegGenShape;
@@ -395,7 +401,9 @@ export default function PiggleGame() {
         setGameMessage("");
     };
     
-
+    /**
+     * Return the canvas, game message, and the button to start a new game
+     */
     return (
         <div style={{ textAlign: "center" }}>
             <p id="shotsLeft">Shots Left: {shotsLeft}</p>

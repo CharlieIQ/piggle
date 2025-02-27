@@ -49,6 +49,25 @@ body {
   border-radius: 10px;
 }
 
+#score{
+  display: block;
+  width: 25%;
+  margin: 5px auto;
+  background-color: lightblue;
+  border: 2px solid black;
+  border-radius: 10px;
+  font-size: 25px;
+}
+
+#gameMessage{
+  display: block;
+  width: 50%;
+  margin: 5px auto;
+  background-color: rgb(229, 255, 0);
+  border: 2px solid black;
+  border-radius: 10px;
+  font-size: 25px;
+}
 h1 {
   color: #000000;
   font-family: Verdana, Geneva, Tahoma, sans-serif;

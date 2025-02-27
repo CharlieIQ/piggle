@@ -38,8 +38,14 @@ export default function PiggleGame() {
     const [cannonAngle, setCannonAngle] = useState(0);
     // State for remaining shots
     const [shotsLeft, setShotsLeft] = useState(MAX_SHOTS);
+    // Current score variable
+    // (PROPOSED SCORE EQUATION) currentScore + (numberOfPegsHitThisShot * 100)
+    const [currentScore, setCurrentScore] = useState(0);
+    const [pegsHitThisShot, setPegsHitThisShot] = useState(0);
+    // State for game win or lose
     const [gameMessage, setGameMessage] = useState("");
-
+    // State for game finished (0 for no, 1 for yes)
+    const [isGameDone, setIsGameDone] = useState(0);
 
     /**
      * This method will generate the pegs randomly
@@ -118,11 +124,11 @@ export default function PiggleGame() {
         const startX = 100; // Initial X position
         const startY = 150; // Initial Y position
         const verticalSpacing = spacing * Math.sqrt(3) / 2; // Correct vertical spacing for hex grid
-    
+
         for (let row = 0; row < rows; row++) {
             // Shift odd-numbered rows slightly right (half of the spacing)
             const rowOffset = (row % 2 === 0) ? 0 : spacing / 2;
-    
+
             for (let col = 0; col < cols; col++) {
                 pegs.push({
                     x: startX + col * spacing + rowOffset, // Apply offset only to odd rows
@@ -132,11 +138,11 @@ export default function PiggleGame() {
                 });
             }
         }
-    
+
         return pegs;
     };
-    
-    
+
+
 
     /**
      * Generate the pegs in a triangular shape
@@ -156,7 +162,7 @@ export default function PiggleGame() {
         for (let row = 0; row < numRows; row++) {
             // Center the row by adjusting the starting x position based on the row number
             const startX = xPos - (row * pegSpacing) / 2;
-    
+
             for (let col = 0; col <= row; col++) {
                 // Calculate the x and y positions for each peg in the current row
                 const x = startX + col * pegSpacing;
@@ -174,6 +180,20 @@ export default function PiggleGame() {
 
     // Peg generation logic inside useEffect
     const pegs = useRef([]);
+
+    /**
+         * This will update the score for every peg hit
+         */
+    useEffect(() => {
+        if (pegsHitThisShot > 0) {
+            // Correctly update score based on latest pegsHitThisShot
+            setCurrentScore(prevScore => prevScore + (pegsHitThisShot * 100));
+
+            // Reset after score updates
+            setPegsHitThisShot(0);
+        }
+    }, [pegsHitThisShot]);
+
 
     useEffect(() => {
         // Randomize the pegs every time
@@ -201,7 +221,7 @@ export default function PiggleGame() {
                 pegGenShape = generatePegsRandomly();
         }
         // Set pegs after generation
-        pegs.current = pegGenShape;  
+        pegs.current = pegGenShape;
     }, []);
 
     // Game loop
@@ -228,7 +248,7 @@ export default function PiggleGame() {
             const cannonWidth = 40;
             const cannonHeight = 80;
             // Generate cannon with position and size
-            ctx.drawImage(cannonImage.current, -(cannonWidth / 2), -(cannonHeight/3), cannonWidth, cannonHeight);
+            ctx.drawImage(cannonImage.current, -(cannonWidth / 2), -(cannonHeight / 3), cannonWidth, cannonHeight);
             ctx.restore();
         };
 
@@ -241,12 +261,12 @@ export default function PiggleGame() {
             if (ballRef.current.launched) {
                 ctx.drawImage(
                     // The image reference
-                    piggleImage.current,   
+                    piggleImage.current,
                     // x position of the ball
                     ballRef.current.x - ballRef.current.radius,
                     // y position of the ball
-                    ballRef.current.y - ballRef.current.radius, 
-                    ballRef.current.radius * ballSize,   
+                    ballRef.current.y - ballRef.current.radius,
+                    ballRef.current.radius * ballSize,
                     ballRef.current.radius * ballSize
                 );
             }
@@ -273,6 +293,7 @@ export default function PiggleGame() {
          * Logic to handle peg collisions
          */
         const handleCollisions = () => {
+            let hitCount = 0;
             // Checks each peg if it was hit
             pegs.current.forEach(peg => {
                 // Ignore if peg is hit
@@ -291,8 +312,11 @@ export default function PiggleGame() {
                     ballRef.current.dy -= 2 * dotProduct * normalY;
                     // Mark the peg as hit
                     peg.hit = true;
+                    hitCount++;
                 }
             });
+
+            setPegsHitThisShot(prev => prev + hitCount);
         };
 
         /**
@@ -305,19 +329,20 @@ export default function PiggleGame() {
                 ball.dy += BALL_GRAVITY;
                 ball.x += ball.dx;
                 ball.y += ball.dy;
-                
+
                 // For ball hitting walls (flip x speed)
                 if (ball.x - ball.radius < 0 || ball.x + ball.radius > canvas.width) {
                     ball.dx *= -1;
                 }
 
                 // For ball hitting ceiling (flip y speed)
-                if (ball.y + ball.radius < 0){
+                if (ball.y + ball.radius < 0) {
                     ball.dy *= -1;
                 }
-                
+
                 // If ball goes out of bounds on the bottom of the screen
                 if (ball.y + ball.radius > canvas.height) {
+                    // Reset Ball position
                     ball.launched = false;
                     ball.x = 200;
                     ball.y = 50;
@@ -325,6 +350,7 @@ export default function PiggleGame() {
                     ball.dy = 0;
                     checkGameStatus();
                 }
+                // Handle Peg collisons
                 handleCollisions();
             }
         };
@@ -334,7 +360,9 @@ export default function PiggleGame() {
          */
         const checkGameStatus = () => {
             if (pegs.current.every(peg => peg.hit)) {
-                setGameMessage("You Win!");
+                // Add 500 points for every shot not used
+                setGameMessage("You Win! Score = " + (currentScore + (shotsLeft * 500)));
+                setIsGameDone(1);
             } else if (shotsLeft <= 0) {
                 setGameMessage("You Lose!");
             }
@@ -395,19 +423,19 @@ export default function PiggleGame() {
             default: pegGenShape = generatePegsRandomly();
         }
         pegs.current = pegGenShape;
-    
+
         // Reset game state
         setShotsLeft(MAX_SHOTS);
         setGameMessage("");
     };
-    
+
     /**
      * Return the canvas, game message, and the button to start a new game
      */
     return (
         <div style={{ textAlign: "center" }}>
-            <p id="shotsLeft">Shots Left: {shotsLeft}</p>
-            {gameMessage && <h2>{gameMessage}</h2>}
+            {isGameDone == 0 && <p id="shotsLeft">Shots Left: {shotsLeft}</p>}
+            {gameMessage && <h2 id="gameMessage">{gameMessage}</h2>}
             <canvas
                 ref={canvasRef}
                 width={CANVAS_WIDTH}
@@ -416,8 +444,9 @@ export default function PiggleGame() {
                 onClick={launchBall}
                 onMouseMove={handleMouseMove}
             />
+            {isGameDone == 0 && <p id="score">{currentScore}</p>}
             <button id="newGameButtonRandom" onClick={resetgameRandom} style={{ marginTop: "10px", padding: "10px", fontSize: "16px" }}>
-            Start a random new game!
+                Start a random new game!
             </button>
         </div>
     );

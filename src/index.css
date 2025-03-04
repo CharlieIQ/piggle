@@ -3,7 +3,7 @@
 body {
   font-family: 'Luckiest Guy';
   text-align: center;
-  color: #4A2200; /* Dark brown for a natural, rustic feel */
+  color: #4A2200;
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -16,7 +16,7 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
+/* Game canvas */
 canvas {
   display: block;
   margin: 20px auto;
@@ -25,12 +25,12 @@ canvas {
   border-radius: 10px;
 }
 
-
+/* Main game header */
 h1 {
   font-family: 'Luckiest Guy', cursive;
   font-size: 6rem;
   text-align: center;
-  background: linear-gradient(45deg, #ffdc51, #e5a709); /* Gold-to-orange */
+  background: linear-gradient(45deg, #ffdc51, #e5a709);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 4px 4px 0px #ff0bf7, 8px 8px 5px rgba(230, 255, 2, 0.5);

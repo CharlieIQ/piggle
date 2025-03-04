@@ -82,8 +82,6 @@ export default function PiggleGame() {
             setCurrentScore(prevScore => prevScore + (pegsHitThisShot * 100));
             // Play peg sounds
             playPegHitSound(0.9 + (pegsHitThisShot * 0.1));
-            console.log(currentScore);
-            console.log("pitch = " + (0.9 + (pegsHitThisShot * 0.1)));
             // Reset after score updates
             setPegsHitThisShot(prev => prev++);
         }
@@ -330,7 +328,10 @@ export default function PiggleGame() {
         const mouseY = event.clientY - rect.top;
         setCannonAngle(Math.atan2(mouseY - 50, mouseX - 200));
     };
-
+    
+    /**
+     * Reset the game randomly when not in adventure mode
+     */
     const resetgameRandom = () => {
         // Reset ball state
         ballRef.current = {
@@ -362,6 +363,11 @@ export default function PiggleGame() {
      * Start the adventure mode
      */
     const startAdventureMode = () => {
+        // Reset ball automatically
+        ballRef.current = {
+            x: 200, y: 50, dx: 0, dy: 0, radius: 10, launched: false
+        };
+
         setIsGameDone(0);
         // Update adventure mode variables
         setIsAdventureMode(1);
@@ -402,6 +408,7 @@ export default function PiggleGame() {
      */
     return (
         <div style={{ textAlign: "center" }}>
+            {isAdventureMode === 1 && <h2 id="gameMessage">Level {currentAdventureModeLevel}</h2>}
             {isGameDone === 0 && <p id="shotsLeft">Shots Left: {shotsLeft}</p>}
             {gameMessage && <h2 id="gameMessage">{gameMessage}</h2>}
             <canvas

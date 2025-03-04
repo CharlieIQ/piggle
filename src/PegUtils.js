@@ -1,9 +1,9 @@
 const NUMBER_OF_PEGS = 20;
 const PEG_RADIUS = 10;
 /**
-     * This method will generate the pegs randomly
-     * @returns The pegs generated in a random
-     */
+ * This method will generate the pegs randomly
+ * @returns The pegs generated in a random
+ */
 const generatePegsRandomly = () => (
     Array.from({ length: NUMBER_OF_PEGS }, () => ({
         x: (Math.random() * 380) + 10,
@@ -71,12 +71,12 @@ const generatePegsCircular = () => {
  */
 const generatePegsHexagonal = () => {
     let pegs = [];
-    const rows = 5;  // Number of rows
-    const cols = 5;  // Number of columns
-    const spacing = 50; // Horizontal spacing between pegs
-    const startX = 100; // Initial X position
-    const startY = 150; // Initial Y position
-    const verticalSpacing = spacing * Math.sqrt(3) / 2; // Correct vertical spacing for hex grid
+    const rows = 5;
+    const cols = 5;
+    const spacing = 50;
+    const startX = 100;
+    const startY = 150;
+    const verticalSpacing = spacing * Math.sqrt(3) / 2;
 
     for (let row = 0; row < rows; row++) {
         const rowOffset = (row % 2 === 0) ? 0 : spacing / 2;

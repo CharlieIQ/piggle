@@ -136,7 +136,7 @@ export default function PiggleGame() {
             // Offset the cannon angle by pi/2 to align barrel with mouse position
             ctx.rotate(cannonAngle - (Math.PI / 2));
             // Cannon default size
-            const cannonWidth = 40;
+            const cannonWidth = 80;
             const cannonHeight = 80;
             // Generate cannon with position and size
             ctx.drawImage(cannonImage.current, -(cannonWidth / 2), -(cannonHeight / 3), cannonWidth, cannonHeight);
@@ -264,6 +264,7 @@ export default function PiggleGame() {
                 setIsGameDone(1);
             } else if (shotsLeft <= 0) {
                 setGameMessage("You Lose!");
+                setIsGameDone(1);
             }
         };
 
@@ -325,7 +326,9 @@ export default function PiggleGame() {
         }
         pegs.current = pegGenShape;
         // Reset game state
+        setIsGameDone(0);
         setShotsLeft(MAX_SHOTS);
+        setCurrentScore(0);
         setGameMessage("");
     };
 

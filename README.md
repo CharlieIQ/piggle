@@ -6,7 +6,7 @@ Piggle is a game where you try to hit pegs with pigs shot from a cannon.
 ## How to play
 - Aim with your mouse and click to shoot the ball
 - Hit all of the red pegs to win!
-- Blue pegs score 100 points, while red pegs score 500 points
+- Every peg hit scores 100 points
 - The more pegs you hit with a single ball, the more score you'll get
 - Try to get the highest score possible!
 

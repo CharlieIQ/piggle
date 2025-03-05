@@ -26,7 +26,7 @@ canvas {
 }
 
 /* Main game header */
-h1 {
+#mainGameHeader {
   font-family: 'Luckiest Guy', cursive;
   font-size: 6rem;
   text-align: center;
@@ -44,7 +44,6 @@ h1 {
   color: #ff6a00; 
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
   margin-bottom: 10px; 
-
 }
 
 /* Game Message */
@@ -86,4 +85,81 @@ button:hover {
 button:active {
   transform: scale(0.98);
   box-shadow: 2px 2px 0px #4A2200;
+}
+
+/* For login */
+input {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  width: 100%;
+  margin: 10px 0;
+}
+
+/* For user box */
+.userInfo {
+  background-color: rgba(255, 255, 255, 0.9); /* Light, semi-transparent background */
+  border-radius: 10px; /* Rounded corners for a softer look */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  padding: 20px;
+  max-width: 500px; /* Limit the width */
+  margin: 20px auto; /* Center the container */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+input {
+  padding: 10px;
+  font-size: 16px;
+  margin: 10px 0;
+  width: 100%;
+  max-width: 300px;
+  border: 1px solid #ddd; 
+  border-radius: 5px;
+}
+
+input:focus {
+  border-color: #007bff; 
+  outline: none;
+}
+
+#loginSignUpButton {
+  background-color: #007bff; 
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 10px; 
+}
+
+/* For top score display */
+.leaderboard {
+  background: rgba(255, 255, 255, 0.8); 
+  border: 3px solid #ffcc00; 
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  width: fit-content;
+  margin: 20px auto;
+  text-align: center;
+}
+
+.leaderboard h2 {
+  color: #ff6600; 
+  margin-bottom: 10px;
+}
+
+.leaderboard ol {
+  list-style: decimal;
+  padding: 0;
+}
+
+.leaderboard li {
+  font-size: 18px;
+  padding: 5px;
 }

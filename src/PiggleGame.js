@@ -5,6 +5,10 @@
  */
 import { useEffect, useRef, useState } from "react";
 
+// FOR FIRBASE TESTS
+import { getFirestore, doc, getDoc, updateDoc, setDoc } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+
 import * as pegUtils from "./levels/RandomLevels.js";
 import * as adventureLevels from "./levels/AdventureLevels.js";
 
@@ -59,7 +63,6 @@ export default function PiggleGame() {
     // State for remaining shots
     const [shotsLeft, setShotsLeft] = useState(MAX_SHOTS);
     // Current score variable
-    // (PROPOSED SCORE EQUATION) currentScore + (numberOfPegsHitThisShot * 100)
     const [currentScore, setCurrentScore] = useState(0);
     const [pegsHitThisShot, setPegsHitThisShot] = useState(0);
     // State for game win or lose
@@ -90,7 +93,7 @@ export default function PiggleGame() {
 
     useEffect(() => {
         // Randomize the pegs every time
-        const pegGeneration = Math.floor(Math.random() * 5);  // Correct random generation
+        const pegGeneration = Math.floor(Math.random() * 5);  
 
         let pegGenShape;
         // Generate the pegs based on the result of the random variable
@@ -259,6 +262,45 @@ export default function PiggleGame() {
             }
         };
 
+        // Function to save the user's high score in adventure mode
+        const saveHighScore = async (highScore) => {
+            const auth = getAuth();
+            const db = getFirestore();
+            const user = auth.currentUser;
+          
+            if (user) {
+              try {
+                const userRef = doc(db, "users", user.uid); 
+                const docSnap = await getDoc(userRef); 
+          
+                if (docSnap.exists()) {
+                  // Get High score
+                  const currentHighScore = docSnap.data().highscore || 0; 
+          
+                  if (highScore > currentHighScore) {
+                    await updateDoc(userRef, {
+                        //Update highscore if new one is higher
+                        highscore: highScore, 
+                    });
+          
+                    console.log("New high score saved!");
+                  } else {
+                    console.log("High score is not higher, not updating.");
+                  }
+                } else {
+                  console.log("No user data found, creating document.");
+                  await setDoc(userRef, {
+                    highscore: highScore,
+                  });
+                }
+              } catch (error) {
+                console.error("Error saving high score:", error);
+              }
+            } else {
+              console.log("No user is logged in");
+            }
+          };
+
         /**
          * Check if game is won
          */
@@ -273,12 +315,15 @@ export default function PiggleGame() {
                     setGameMessage("You Lose!");
                     setIsGameDone(1);
                 }
-            } else {
-                if (pegs.current.every(peg => peg.hit)) {
+            } 
+            // Condition if game is in adventure mode
+            else {
+                if (pegs.current.filter(peg => peg.type === "red").every(peg => peg.hit)) {
                     // Add 500 points for every shot not used
                     setGameMessage("You Win! Score: " + (currentScore + (shotsLeft * 500)));
                     // Change the current adventure mode level
                     setCurrentAdventureModeLevel(prev => prev + 1);
+                    saveHighScore(currentScore);
                     changeAdventureModeLevel();
                 } else if (shotsLeft <= 0) {
                     setGameMessage("You Lose!");
@@ -328,7 +373,7 @@ export default function PiggleGame() {
         const mouseY = event.clientY - rect.top;
         setCannonAngle(Math.atan2(mouseY - 50, mouseX - 200));
     };
-    
+
     /**
      * Reset the game randomly when not in adventure mode
      */
@@ -387,30 +432,43 @@ export default function PiggleGame() {
             x: 200, y: 50, dx: 0, dy: 0, radius: 10, launched: false
         };
 
-        // Change peg layout based on the new level
-        let newPegLayout;
-        switch (currentAdventureModeLevel + 1) { 
-            case 2: newPegLayout = adventureLevels.LevelTwo(); break;
-            case 3: newPegLayout = adventureLevels.LevelThree(); break;
-            default: newPegLayout = adventureLevels.LevelOne();
-        }
+        if (currentAdventureModeLevel < 5){
+            // Change peg layout based on the new level
+            let newPegLayout;
+            switch (currentAdventureModeLevel + 1) {
+                case 2: newPegLayout = adventureLevels.LevelTwo(); break;
+                case 3: newPegLayout = adventureLevels.LevelThree(); break;
+                case 4: newPegLayout = adventureLevels.LevelFour(); break;
+                case 5: newPegLayout = adventureLevels.LevelFive(); break;
+                default: newPegLayout = adventureLevels.LevelOne();
+            }
+            // Update the pegs
+            pegs.current = newPegLayout; 
 
-        pegs.current = newPegLayout; // Directly update the pegs
-
-        // Reset game state
+            // Reset game state
         setShotsLeft(MAX_SHOTS);
         setGameMessage("");
+        }else{
+            setGameMessage("You Win! Score: " + (currentScore + (shotsLeft * 500)));
+            setIsAdventureMode(0);
+            setIsGameDone(1);
+        }
+        
+
     };
 
 
     /**
-     * Return the canvas, game message, and the button to start a new game
+     * Return the game elements
      */
     return (
-        <div style={{ textAlign: "center" }}>
-            {isAdventureMode === 1 && <h2 id="gameMessage">Level {currentAdventureModeLevel}</h2>}
+        <div style={{textAlign: "center"}}>
+            {isAdventureMode === 1 && <h2 id="gameMessage">Adventure Mode Level {currentAdventureModeLevel}</h2>}
+
             {isGameDone === 0 && <p id="shotsLeft">Shots Left: {shotsLeft}</p>}
+
             {gameMessage && <h2 id="gameMessage">{gameMessage}</h2>}
+
             <canvas
                 ref={canvasRef}
                 width={CANVAS_WIDTH}
@@ -419,10 +477,13 @@ export default function PiggleGame() {
                 onClick={launchBall}
                 onMouseMove={handleMouseMove}
             />
+
             {isGameDone === 0 && <p id="score">{currentScore}</p>}
+
             <button id="adventureModeButton" onClick={startAdventureMode} style={{ marginTop: "10px", padding: "10px", fontSize: "16px" }}>
                 Start Adventure Mode!
             </button>
+
             <button id="newGameButtonRandom" onClick={resetgameRandom} style={{ marginTop: "10px", padding: "10px", fontSize: "16px" }}>
                 Start a random new game!
             </button>

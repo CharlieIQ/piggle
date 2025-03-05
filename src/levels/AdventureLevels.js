@@ -154,8 +154,107 @@ const LevelThree = () => {
         let angle = (Math.PI * 2 * i) / facePegCount;
         pegs.push({ x: centerX + faceRadius * Math.cos(angle), y: centerY + faceRadius * Math.sin(angle), radius: PEG_RADIUS, hit: false, type: pegType });
     }
+    return pegs;
+};
 
-    
+/**
+ * This method will generate level four
+ * @returns pegs in level four
+ */
+const LevelFour = () => {
+    let pegs = [];
+    const centerX = 200;
+    const centerY = 300;
+    const spacing = 25;
+
+    // First plus
+    for (let i = -4; i <= 4; i++) {
+        // Vertical Line
+        pegs.push({
+            x: centerX - 80,
+            y: centerY + i * spacing,
+            radius: typeof PEG_RADIUS !== "undefined" ? PEG_RADIUS : 10,
+            hit: false,
+            type: Math.random() < 0.3 ? "red" : "blue"
+        });
+
+        // Horizontal Line
+        pegs.push({
+            x: centerX - 80 + i * spacing,
+            y: centerY,
+            radius: typeof PEG_RADIUS !== "undefined" ? PEG_RADIUS : 10,
+            hit: false,
+            type: Math.random() < 0.3 ? "red" : "blue"
+        });
+    }
+    // Second plus
+    for (let i = -4; i <= 4; i++) {
+        // Vertical Line
+        pegs.push({
+            x: centerX + 80,
+            y: centerY + 50 + i * spacing,
+            radius: typeof PEG_RADIUS !== "undefined" ? PEG_RADIUS : 10,
+            hit: false,
+            type: Math.random() < 0.3 ? "red" : "blue"
+        });
+
+        // Horizontal Line
+        pegs.push({
+            x: centerX + 80 + i * spacing,
+            y: centerY + 50,
+            radius: typeof PEG_RADIUS !== "undefined" ? PEG_RADIUS : 10,
+            hit: false,
+            type: Math.random() < 0.3 ? "red" : "blue"
+        });
+    }
+
+    return pegs;
+};
+
+/**
+ * This method will generate level 5 in the shape of a star
+ */
+const LevelFive = () => {
+    let pegs = [];
+    let redPegCount = 0;
+    let bluePegCount = 0;
+
+    // Define the center of the star
+    const centerX = 200;
+    const centerY = 300;
+
+    // Star properties
+    const outerRadius = 150;
+    const innerRadius = 60;
+    const points = 15;
+
+    // Angle between each point
+    const angleStep = Math.PI / points;
+
+    // Generate the points
+    for (let i = 0; i < points * 2; i++) {
+        const angle = i * angleStep;
+        const radius = i % 2 === 0 ? outerRadius : innerRadius;
+
+        const x = centerX + Math.cos(angle) * radius;
+        const y = centerY + Math.sin(angle) * radius;
+
+        let pegType = "blue";
+        if (Math.random() < 0.3 && redPegCount < bluePegCount) {
+            pegType = "red";
+            redPegCount++;
+        } else {
+            bluePegCount++;
+        }
+
+        pegs.push({
+            x: x,
+            y: y,
+            radius: PEG_RADIUS,
+            hit: false,
+            type: pegType
+        });
+    }
 
     return pegs;
 };
@@ -164,5 +263,7 @@ const LevelThree = () => {
 export { 
     LevelOne,
     LevelTwo,
-    LevelThree
+    LevelThree,
+    LevelFour,
+    LevelFive
 };

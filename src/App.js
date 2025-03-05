@@ -1,6 +1,8 @@
-import './App.css';
+import './styles/App.css';
 
 import PiggleGame from "./PiggleGame";
+import HowToPlay from "./components/HowToPlay";
+
 
 // Function for the game
 function App() {
@@ -8,6 +10,7 @@ function App() {
     <div className="App">
       <h1>PIGGLE</h1>
       <PiggleGame />
+      <HowToPlay />
     </div>
   );
 }

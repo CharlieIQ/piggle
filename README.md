@@ -4,8 +4,10 @@ Piggle is a game where you try to hit pegs with pigs shot from a cannon.
 [Play Piggle!](https://charlieiq.github.io/piggle/)
 
 ## How to play
-1. Aim the cannon
-2. Click to fire a pig at the pegs
-3. Try and hit all of the pegs!
+- Aim with your mouse and click to shoot the ball
+- Hit all of the red pegs to win!
+- Blue pegs score 100 points, while red pegs score 500 points
+- The more pegs you hit with a single ball, the more score you'll get
+- Try to get the highest score possible!
 
 *My first attempt at making a game in React JS, pretty fun stuff!*

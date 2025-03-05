@@ -5,8 +5,8 @@
  */
 import { useEffect, useRef, useState } from "react";
 
-import * as pegUtils from "./PegUtils.js";
-import * as adventureLevels from "./Levels.js";
+import * as pegUtils from "./levels/RandomLevels.js";
+import * as adventureLevels from "./levels/AdventureLevels.js";
 
 // Import cannon sprite
 import PigCannon from "./GameImages/PigCannon.png";

@@ -5,7 +5,6 @@
   "dependencies": {
     "cra-template": "1.2.0",
     "firebase": "^11.4.0",
-    "gh-pages": "^6.3.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-scripts": "^5.0.1",
@@ -37,5 +36,8 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "https://charlieiq.github.io/piggle"
+  "homepage": "https://charlieiq.github.io/piggle",
+  "devDependencies": {
+    "gh-pages": "^5.0.0"
+  }
 }

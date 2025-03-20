@@ -10,8 +10,8 @@ const firebaseConfig = {
   projectId: "piggle-6cb06",
   storageBucket: "piggle-6cb06.firebasestorage.app",
   messagingSenderId: "146231235973",
-  appId: "1:146231235973:web:a915fa4cff1623539de0ec",
-  measurementId: "G-FVWT814Z7Y"
+  appId: "1:146231235973:web:e3bb4f85c1cc956c9de0ec",
+  measurementId: "G-PYKJT4JQXW"
 };
 
 // Initialize Firebase

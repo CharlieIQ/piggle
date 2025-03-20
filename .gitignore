@@ -1,2 +1,4 @@
 .eslintcache
 firebaseConfig.js
+firebase-admin-key.json
+.env

@@ -21,6 +21,8 @@ const HowToPlay = () => {
                         <p>Every peg hit scores 100 points</p>
                         <p>The more pegs you hit with a single ball, the more score you'll get.</p>
                         <p>Try to get the highest score possible!</p>
+                        <p>Note: Recommended browser is Chrome.<br></br>
+                         Other browsers may affect the refresh rate of the game</p>
                         <button onClick={() => setIsOpen(false)} className="close-btn">
                             Close
                         </button>

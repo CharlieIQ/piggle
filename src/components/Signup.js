@@ -2,14 +2,15 @@ import { useState } from "react";
 import { signUp } from "../auth";
 
 const Signup = () => {
+    // States for email, username, and password
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [username, setUsername] = useState("");  // New state for username
+    const [username, setUsername] = useState(""); 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // Pass the username, email, and password to the signUp function
+            // Pass the username, email, and password to the sign up
             await signUp(email, password, username);
             alert("Account successfully made");
         } catch (error) {

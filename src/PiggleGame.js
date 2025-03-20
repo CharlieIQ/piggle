@@ -5,7 +5,7 @@
  */
 import { useEffect, useRef, useState } from "react";
 
-// FOR FIRBASE TESTS
+// FOR FIREBASE TESTS
 import { getFirestore, doc, getDoc, updateDoc, setDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
@@ -283,12 +283,8 @@ export default function PiggleGame() {
                         highscore: highScore, 
                     });
           
-                    console.log("New high score saved!");
-                  } else {
-                    console.log("High score is not higher, not updating.");
                   }
                 } else {
-                  console.log("No user data found, creating document.");
                   await setDoc(userRef, {
                     highscore: highScore,
                   });
@@ -296,8 +292,6 @@ export default function PiggleGame() {
               } catch (error) {
                 console.error("Error saving high score:", error);
               }
-            } else {
-              console.log("No user is logged in");
             }
           };
 
@@ -403,7 +397,6 @@ export default function PiggleGame() {
         setGameMessage("");
     };
 
-
     /**
      * Start the adventure mode
      */
@@ -453,8 +446,6 @@ export default function PiggleGame() {
             setIsAdventureMode(0);
             setIsGameDone(1);
         }
-        
-
     };
 
 
@@ -480,11 +471,15 @@ export default function PiggleGame() {
 
             {isGameDone === 0 && <p id="score">{currentScore}</p>}
 
-            <button id="adventureModeButton" onClick={startAdventureMode} style={{ marginTop: "10px", padding: "10px", fontSize: "16px" }}>
+            <button id="adventureModeButton" 
+            onClick={startAdventureMode} 
+            style={{ marginTop: "10px", padding: "10px", fontSize: "16px" }}>
                 Start Adventure Mode!
             </button>
 
-            <button id="newGameButtonRandom" onClick={resetgameRandom} style={{ marginTop: "10px", padding: "10px", fontSize: "16px" }}>
+            <button id="newGameButtonRandom" 
+                onClick={resetgameRandom}
+                style={{ marginTop: "10px", padding: "10px", fontSize: "16px" }}>
                 Start a random new game!
             </button>
         </div>

@@ -1,7 +1,7 @@
 import './styles/App.css';
 import { useState, useEffect } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-
+// Import game
 import PiggleGame from "./PiggleGame";
 // Import components
 import HowToPlay from "./components/HowToPlay";
@@ -12,8 +12,9 @@ import TopScore from './components/TopScore';
 
 // Function for the game
 function App() {
+  // State to track user
   const [user, setUser] = useState(null);
-  
+  // Track auth changes
   const auth = getAuth();
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {

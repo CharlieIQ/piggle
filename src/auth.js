@@ -1,9 +1,11 @@
+// Firestore imports
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "firebase/auth";
-import { getFirestore, doc, setDoc } from "firebase/firestore";  // Import Firestore functions
+import { getFirestore, doc, setDoc } from "firebase/firestore";
 import app from "./firebaseConfig";
 
+// Get firestore and auth
 const auth = getAuth(app);
-const db = getFirestore(app);  // Get Firestore instance
+const db = getFirestore(app); 
 
 // Sign up function
 export const signUp = async (email, password, username) => {

@@ -1,0 +1,28 @@
+/* Navigation bar styles */
+.navbar {
+  font-family: 'Luckiest Guy', cursive;
+  font-size: 2rem;
+  color: #4A2200;
+  text-shadow: 2px 2px 0 #ffdc51, 4px 4px 5px rgba(229, 167, 9, 0.7);
+  background: rgba(255, 220, 81, 0.8);
+  border: 3px solid #e5a709;
+  border-radius: 12px;
+  width: fit-content;
+  margin: 15px auto;
+  padding: 10px 25px;
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  box-shadow: 3px 3px 10px rgba(230, 255, 2, 0.4);
+}
+
+.navbar a {
+  color: #4A2200;
+  text-decoration: none;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.navbar a:hover {
+  color: #ff0bf7;
+  text-shadow: 2px 2px 4px #ff0bf7, 3px 3px 8px rgba(255, 11, 247, 0.6);
+}

@@ -1,0 +1,71 @@
+/* ManageLevels.css */
+
+.manage-levels-container {
+  max-width: 600px;
+  margin: 40px auto;
+  font-family: 'Luckiest Guy', cursive;
+  color: #4A2200;
+  padding: 0 15px 40px;
+}
+
+.manage-levels-container h2 {
+  font-size: 3rem;
+  margin-bottom: 25px;
+  text-align: center;
+  text-shadow: 3px 3px 0 #ffdc51, 5px 5px 10px rgba(229, 167, 9, 0.6);
+}
+
+.level-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 18px;
+  padding: 12px 16px;
+  border: 2px solid #e5a709;
+  border-radius: 14px;
+  background: rgba(255, 220, 81, 0.15);
+  box-shadow: 2px 2px 10px rgba(229, 167, 9, 0.4);
+  transition: box-shadow 0.3s ease;
+}
+
+.level-item:hover {
+  box-shadow: 4px 4px 18px rgba(255, 11, 247, 0.7);
+}
+
+.level-item input[type="text"] {
+  font-family: 'Luckiest Guy', cursive;
+  font-size: 1.4rem;
+  flex-grow: 1;
+  padding: 6px 10px;
+  border: 2px solid #e5a709;
+  border-radius: 8px;
+  background-color: #fff9db;
+  color: #4A2200;
+  box-shadow: 1px 1px 5px rgba(255, 220, 81, 0.4);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.level-item input[type="text"]:focus {
+  border-color: #ff0bf7;
+  box-shadow: 0 0 6px #ff0bf7;
+  outline: none;
+}
+
+.level-item button {
+  font-family: 'Luckiest Guy', cursive;
+  font-size: 1.6rem;
+  margin-left: 12px;
+  padding: 8px 20px;
+  background: #ffdc51;
+  border: 3px solid #e5a709;
+  border-radius: 15px;
+  color: #4A2200;
+  cursor: pointer;
+  box-shadow: 1px 1px 7px rgba(229, 167, 9, 0.7);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.level-item button:hover {
+  background-color: #ff0bf7;
+  color: white;
+  box-shadow: 0 0 12px #ff0bf7;
+}

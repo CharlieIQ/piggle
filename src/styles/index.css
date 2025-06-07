@@ -1,15 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Press+Start+2P&display=swap');
 
 body {
-  font-family: 'Luckiest Guy';
+  font-family: 'Luckiest Guy', cursive;
   text-align: center;
   color: #4A2200;
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* This image was generated using Gemini AI */
   background-image: url("../GameImages/background.jpeg");
-  background-size: 100% 150%;
+  background-size: cover;
+  /* fills entire viewport without distortion */
+  background-repeat: no-repeat;
+  /* prevents tiling */
+  background-position: center;
+  /* centers the image */
+  background-attachment: fixed;
+  /* fixes background while scrolling */
+  min-height: 100vh;
+  /* ensures body covers viewport height */
 }
 
 code {

@@ -15,6 +15,8 @@ import LevelBrowserPage from "./pages/LevelBrowser";
 import PlayLevelPage from "./pages/PlayLevelPage";
 // Import nav bar element
 import NavBar from './components/NavBar';
+// Import utility
+import RequireAuth from "./utils/RequireAuth";
 // Style imports
 import './styles/App.css';
 import ManageLevelsPage from "./pages/ManageLevelsPage";
@@ -29,14 +31,22 @@ function App() {
       setUser(user);
     });
   }, []);
-  
+
   return (
     <Router>
-      <NavBar></NavBar>
+      <NavBar user={user} ></NavBar>
       <Routes>
-        <Route path="/editor" element={<LevelEditorPage user={user} />} />
+        <Route path="/editor" element={
+          <RequireAuth user={user}>
+            <LevelEditorPage user={user} />
+          </RequireAuth>
+        } />
         <Route path="/levels" element={<LevelBrowserPage />} />
-        <Route path="/managelevels" element={<ManageLevelsPage/>}/>
+        <Route path="/managelevels" element={
+          <RequireAuth user={user}>
+            <ManageLevelsPage />
+          </RequireAuth>
+        } />
         <Route path="/play/:levelId" element={<PlayLevelPage />} />
         {/* Default home route for main PiggleGame */}
         <Route path="/" element={

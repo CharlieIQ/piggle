@@ -16,11 +16,12 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
 /* Game canvas */
 canvas {
   display: block;
   margin: 20px auto;
-  background-color: lightblue; 
+  background-color: lightblue;
   border: 2px solid black;
   border-radius: 10px;
 }
@@ -35,36 +36,37 @@ canvas {
   -webkit-text-fill-color: transparent;
   text-shadow: 4px 4px 0px #ff0bf7, 8px 8px 5px rgba(230, 255, 2, 0.5);
   padding: 5px;
-  margin-bottom: 5px;  
+  margin-bottom: 5px;
 }
 
 /* Game Info Text */
-#shotsLeft, #score {
+#shotsLeft,
+#score {
   font-size: 1.8rem;
-  color: #ff6a00; 
+  color: #ff6a00;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
-  margin-bottom: 10px; 
+  margin-bottom: 10px;
 }
 
 /* Game Message */
 #gameMessage {
   font-size: 2.2rem;
-  color: #ffc800; 
+  color: #ffc800;
   text-shadow: 3px 3px 0px #000, 5px 5px 10px rgba(0, 0, 0, 0.5);
 }
 
 /* Canvas Styling */
 canvas {
-  border: 6px solid #8B4513; 
+  border: 6px solid #8B4513;
   border-radius: 12px;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.6);
-  background: rgba(255, 255, 255, 0.2); 
+  background: rgba(255, 255, 255, 0.2);
 }
 
 /* Buttons */
 button {
   font-family: 'Luckiest Guy', cursive;
-  background: linear-gradient(180deg, #D2691E, #A0522D); 
+  background: linear-gradient(180deg, #D2691E, #A0522D);
   color: #FFF3CD;
   border: 3px solid #8B4513;
   padding: 12px 20px;
@@ -99,12 +101,17 @@ input {
 
 /* For user box */
 .userInfo {
-  background-color: rgba(255, 255, 255, 0.9); /* Light, semi-transparent background */
-  border-radius: 10px; /* Rounded corners for a softer look */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  background-color: rgba(255, 255, 255, 0.9);
+  /* Light, semi-transparent background */
+  border-radius: 10px;
+  /* Rounded corners for a softer look */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  /* Subtle shadow for depth */
   padding: 20px;
-  max-width: 500px; /* Limit the width */
-  margin: 20px auto; /* Center the container */
+  max-width: 500px;
+  /* Limit the width */
+  margin: 20px auto;
+  /* Center the container */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -117,30 +124,30 @@ input {
   margin: 10px 0;
   width: 100%;
   max-width: 300px;
-  border: 1px solid #ddd; 
+  border: 1px solid #ddd;
   border-radius: 5px;
 }
 
 input:focus {
-  border-color: #007bff; 
+  border-color: #007bff;
   outline: none;
 }
 
 #loginSignUpButton {
-  background-color: #007bff; 
+  background-color: #007bff;
   color: white;
   border: none;
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
   border-radius: 5px;
-  margin-top: 10px; 
+  margin-top: 10px;
 }
 
 /* For top score display */
 .leaderboard {
-  background: rgba(255, 255, 255, 0.8); 
-  border: 3px solid #ffcc00; 
+  background: rgba(255, 255, 255, 0.8);
+  border: 3px solid #ffcc00;
   padding: 15px;
   border-radius: 10px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
@@ -150,13 +157,14 @@ input:focus {
 }
 
 .leaderboard h2 {
-  color: #ff6600; 
+  color: #ff6600;
   margin-bottom: 10px;
 }
 
 .leaderboard ol {
-  list-style: decimal;
+  list-style: decimal inside;
   padding: 0;
+  margin: 0;
 }
 
 .leaderboard li {

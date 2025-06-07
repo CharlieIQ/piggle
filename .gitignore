@@ -1,4 +1,13 @@
+# Secret keys
 .eslintcache
 firebaseConfig.js
 firebase-admin-key.json
 .env
+# dependencies
+/node_modules
+
+# production build
+/build
+
+# local dev settings
+.vscode/

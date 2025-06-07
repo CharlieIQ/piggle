@@ -56,7 +56,7 @@ export default function PlayLevelPage() {
     const [cannonAngle, setCannonAngle] = useState(0);
     const [shotsLeft, setShotsLeft] = useState(MAX_SHOTS);
     const [loading, setLoading] = useState(true);
-    const [gameMessage, setGameMessage] = useState("");
+    const [gameMessage] = useState("");
 
     // Load pegs from Firestore on mount or levelId change
     useEffect(() => {

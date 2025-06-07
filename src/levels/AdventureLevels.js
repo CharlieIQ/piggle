@@ -1,4 +1,3 @@
-let NUMBER_OF_PEGS = 20;
 const PEG_RADIUS = 10;
 
 /**
@@ -29,7 +28,7 @@ const LevelOne = () => {
             
             // Shift half of the rows
             let xOffset = 0; 
-            if (row % 2 == 0){
+            if (row % 2 === 0){
                 xOffset = 25;
             }
 

@@ -9,7 +9,7 @@ import Signup from "./components/Signup";
 import UserProfile from './components/UserProfile';
 import TopScore from './components/TopScore';
 // Import other pages
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import LevelEditorPage from "./pages/LevelEditor";
 import LevelBrowserPage from "./pages/LevelBrowser";
 import PlayLevelPage from "./pages/PlayLevelPage";
@@ -49,7 +49,7 @@ function App() {
         } />
         <Route path="/play/:levelId" element={<PlayLevelPage />} />
         {/* Default home route for main PiggleGame */}
-        <Route path="/" element={
+        <Route path="/piggle" element={
           <div className="App">
             <h1 id="mainGameHeader">PIGGLE</h1>
             <PiggleGame />
@@ -68,6 +68,11 @@ function App() {
             <TopScore />
           </div>
         } />
+        {/* Redirect root "/" to /piggle */}
+        <Route path="/" element={<Navigate to="/piggle" replace />} />
+
+        {/* Redirect all unknown paths to /piggle */}
+        <Route path="*" element={<Navigate to="/piggle" replace />} />
       </Routes>
     </Router>
 

@@ -30,8 +30,9 @@ export function useAdventureMode(
     const changeAdventureModeLevel = () => {
         ballRef.current = { x: 200, y: 50, dx: 0, dy: 0, radius: 10, launched: false };
         if (currentAdventureModeLevel < 5) {
+            const nextLevel = currentAdventureModeLevel + 1;
             let newPegLayout;
-            switch (currentAdventureModeLevel + 1) {
+            switch (nextLevel) {
                 case 2: newPegLayout = adventureLevels.LevelTwo(); break;
                 case 3: newPegLayout = adventureLevels.LevelThree(); break;
                 case 4: newPegLayout = adventureLevels.LevelFour(); break;
@@ -41,7 +42,7 @@ export function useAdventureMode(
             pegs.current = newPegLayout;
             setShotsLeft(MAX_SHOTS);
             setGameMessage("");
-            setCurrentAdventureModeLevel(prev => prev + 1);
+            setCurrentAdventureModeLevel(nextLevel);
         } else {
             setGameMessage("You Win! Score: " + (currentScore + (shotsLeft * 500)));
             setIsAdventureMode(0);

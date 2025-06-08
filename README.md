@@ -2,7 +2,11 @@
 Piggle is a game where you try to hit pegs with pigs shot from a cannon. 
 
 [Play Piggle!](https://charlieiq.github.io/piggle/)
-
+## *NEW* Level Editor! (Beta)
+The Piggle level editor is now live! You can create very basic levels, and upload them to the level browser
+1. Log into your account
+2. Create your level
+3. Browse and play other people's levels!
 ## How to play
 - Aim with your mouse and click to shoot the ball
 - Hit all of the red pegs to win!

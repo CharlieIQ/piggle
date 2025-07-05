@@ -27,7 +27,6 @@ export default function LevelBrowserPage() {
             {levels.map(level => (
                 <div key={level.id} className="level-card">
                     <h3>{level.title}</h3>
-                    <p>By: {level.authorId}</p>
                     <Link to={`/play/${level.id}`}>
                         <button>Play This Level</button>
                     </Link>

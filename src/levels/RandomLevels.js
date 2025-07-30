@@ -9,7 +9,8 @@ const generatePegsRandomly = () => (
         x: (Math.random() * 380) + 10,
         y: (Math.random() * 300) + 100,
         radius: PEG_RADIUS,
-        hit: false
+        hit: false,
+        type: Math.random() < 0.3 ? "red" : "blue"
     }))
 );
 
@@ -35,7 +36,8 @@ const generatePegsGrid = () => {
                 x: startX + col * spacing,
                 y: startY + row * spacing,
                 radius: PEG_RADIUS,
-                hit: false
+                hit: false,
+                type: Math.random() < 0.3 ? "red" : "blue"
             });
         }
     }
@@ -59,7 +61,8 @@ const generatePegsCircular = () => {
             x: centerX + radius * Math.cos(angle),
             y: centerY + radius * Math.sin(angle),
             radius: PEG_RADIUS,
-            hit: false
+            hit: false,
+            type: Math.random() < 0.3 ? "red" : "blue"
         });
     }
     return pegs;
@@ -86,7 +89,8 @@ const generatePegsHexagonal = () => {
                 x: startX + col * spacing + rowOffset, 
                 y: startY + row * verticalSpacing, 
                 radius: PEG_RADIUS,
-                hit: false
+                hit: false,
+                type: Math.random() < 0.3 ? "red" : "blue"
             });
         }
     }
@@ -100,40 +104,35 @@ const generatePegsHexagonal = () => {
  * @returns The pegs in a triangle shape
  */
 const generatePegsTriangular = () => {
-    // Array for pegs
     let pegs = [];
-    const numRows = 5;
-    // Start x for first row
-    const xPos = 200;
-    // Start y for first row
-    const yPos = 220;
-    // Peg spacing
-    const pegSpacing = 40;
+    const rows = 6;
+    const spacing = 40;
+    const startX = 200;
+    const startY = 150;
 
-    for (let row = 0; row < numRows; row++) {
-        // Center the row by adjusting the starting x position based on the row number
-        const startX = xPos - (row * pegSpacing) / 2;
+    for (let row = 0; row < rows; row++) {
+        const pegsInRow = row + 1;
+        const rowWidth = pegsInRow * spacing;
+        const rowStartX = startX - (rowWidth / 2) + (spacing / 2);
 
-        for (let col = 0; col <= row; col++) {
-            // Calculate the x and y positions for each peg in the current row
-            const x = startX + col * pegSpacing;
-            const y = yPos + row * pegSpacing;
+        for (let col = 0; col < pegsInRow; col++) {
             pegs.push({
-                x: x,
-                y: y,
+                x: rowStartX + col * spacing,
+                y: startY + row * spacing,
                 radius: PEG_RADIUS,
-                hit: false
+                hit: false,
+                type: Math.random() < 0.3 ? "red" : "blue"
             });
         }
     }
+
     return pegs;
 };
 
-
-export { 
-    generatePegsRandomly, 
-    generatePegsGrid, 
-    generatePegsCircular, 
-    generatePegsHexagonal, 
-    generatePegsTriangular 
+export {
+    generatePegsRandomly,
+    generatePegsGrid,
+    generatePegsCircular,
+    generatePegsHexagonal,
+    generatePegsTriangular
 };

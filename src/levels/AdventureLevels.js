@@ -1,3 +1,4 @@
+// Constant for peg radius
 const PEG_RADIUS = 10;
 
 /**
@@ -6,7 +7,7 @@ const PEG_RADIUS = 10;
 const LevelOne = () => {
     let redPegCount = 0;
     let bluePegCount = 0;
-    
+    // Define the grid dimensions and spacing
     const rows = 5;
     const cols = 7;
     const spacing = 50;

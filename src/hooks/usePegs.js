@@ -1,10 +1,18 @@
-import { useRef } from "react";
+import { useRef, useCallback } from "react";
 import * as pegUtils from "../levels/RandomLevels.js";
 
+/**
+ * This is the usePegs hook
+ * @returns {Object} - The usePegs hook
+ */
 export function usePegs() {
     const pegs = useRef([]);
 
-    const generatePegs = () => {
+    /**
+     * Generate pegs
+     * @returns {void}
+     */
+    const generatePegs = useCallback(() => {
         const pegGeneration = Math.floor(Math.random() * 5);
         let pegGenShape;
         switch (pegGeneration) {
@@ -16,7 +24,7 @@ export function usePegs() {
             default: pegGenShape = pegUtils.generatePegsRandomly();
         }
         pegs.current = pegGenShape;
-    };
+    }, []);
 
     return { pegs, generatePegs };
 }

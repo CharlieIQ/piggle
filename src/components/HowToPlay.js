@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import "../styles/HowToPlay.css"; 
 
+/**
+ * This is the How to Play component
+ * @returns {JSX.Element} - The How to Play component
+ */
 const HowToPlay = () => {
+    // State to manage the visibility of the popup
     const [isOpen, setIsOpen] = useState(false); 
 
     return (

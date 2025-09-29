@@ -61,6 +61,11 @@ export default function GameEngine({
     const [pegsHitThisShot, setPegsHitThisShot] = useState(0);
     const [gameMessage, setGameMessage] = useState("");
     const [isGameDone, setIsGameDone] = useState(0);
+    
+    // Ref to store timeout for sound playing
+    const soundTimeoutRef = useRef(null);
+    // Ref to track current pegs hit count for timeout
+    const pegsHitCountRef = useRef(0);
 
     /**
      * Play the peg hit sound
@@ -87,10 +92,32 @@ export default function GameEngine({
      */
     useEffect(() => {
         if (pegsHitThisShot > 0) {
-            setCurrentScore(prevScore => prevScore + (pegsHitThisShot * 100));
-            playPegHitSound(0.9 + (pegsHitThisShot * 0.1));
-            setPegsHitThisShot(0);
+            // Update the ref with current value
+            pegsHitCountRef.current = pegsHitThisShot;
+            
+            // Clear any existing timeout
+            if (soundTimeoutRef.current) {
+                clearTimeout(soundTimeoutRef.current);
+            }
+            
+            // Set a timeout to allow multiple hits to accumulate before playing sound
+            soundTimeoutRef.current = setTimeout(() => {
+                const finalHitCount = pegsHitCountRef.current;
+                setCurrentScore(prevScore => prevScore + (finalHitCount * 100));
+                // Increase pitch based on number of pegs hit (more pegs = higher pitch)
+                // Cap the pitch at 2.0 to prevent audio issues
+                const pitch = Math.min(0.8 + (finalHitCount * 0.2), 2.0);
+                playPegHitSound(pitch);
+                setPegsHitThisShot(0);
+                pegsHitCountRef.current = 0;
+            }, 100); // 100ms delay to allow multiple hits to accumulate
         }
+        
+        return () => {
+            if (soundTimeoutRef.current) {
+                clearTimeout(soundTimeoutRef.current);
+            }
+        };
     }, [pegsHitThisShot]);
 
     /**
@@ -109,7 +136,7 @@ export default function GameEngine({
      * @returns {void}
      */
     useEffect(() => {
-        if (currentShotsFromParent !== undefined && currentShotsFromParent !== shotsLeft) {
+        if (currentShotsFromParent !== undefined) {
             setShotsLeft(currentShotsFromParent);
         }
     }, [currentShotsFromParent]);
@@ -293,6 +320,11 @@ export default function GameEngine({
         }
     };
 
+    /**
+     * Handle mouse movement to rotate cannon
+     * @param {Object} event - The mouse event
+     * @returns {void}
+     */
     const handleMouseMove = (event) => {
         const canvas = canvasRef.current;
         const rect = canvas.getBoundingClientRect();
@@ -301,6 +333,10 @@ export default function GameEngine({
         setCannonAngle(Math.atan2(mouseY - 50, mouseX - 200));
     };
 
+    /**
+     * Reset the game to initial state
+     * @returns {void}
+     */
     const resetGame = () => {
         ballRef.current = {
             x: 200, y: 50, dx: 0, dy: 0, radius: 9, launched: false
@@ -310,6 +346,15 @@ export default function GameEngine({
         setGameMessage("");
         setIsGameDone(0);
         setPegsHitThisShot(0);
+        
+        // Reset all pegs to their unhit state
+        if (pegs && onPegsChange) {
+            const resetPegs = pegs.map(peg => ({
+                ...peg,
+                hit: false
+            }));
+            onPegsChange(resetPegs);
+        }
     };
 
     // Don't render if pegs aren't loaded yet

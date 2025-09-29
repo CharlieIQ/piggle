@@ -99,14 +99,17 @@ export default function PiggleGame() {
         changeAdventureModeLevel();
     }, [changeAdventureModeLevel]);
 
+    // Memoize the onPegsChange callback to prevent infinite re-renders
+    const handlePegsChange = useCallback((newPegs) => {
+        pegs.current = newPegs;
+    }, [pegs]);
+
     return (
         <div style={{ textAlign: "center" }}>
             <GameEngine
                 key={pegKey}
                 pegs={pegs.current}
-                onPegsChange={(newPegs) => {
-                    pegs.current = newPegs;
-                }}
+                onPegsChange={handlePegsChange}
                 isAdventureMode={isAdventureMode === 1}
                 adventureModeLevel={currentAdventureModeLevel}
                 onAdventureModeLevelChange={handleAdventureModeLevelChange}
@@ -121,7 +124,14 @@ export default function PiggleGame() {
 
             <button 
                 id="adventureModeButton"
-                onClick={() => { startAdventureMode(); setCurrentScore(0); }}
+                onClick={() => { 
+                    startAdventureMode(); 
+                    setCurrentScore(0);
+                    setShotsLeft(10);
+                    setGameMessage("");
+                    setIsGameDone(0);
+                    setPegKey(prev => prev + 1); // Force re-render
+                }}
                 style={{ marginTop: "10px", padding: "10px", fontSize: "16px" }}>
                 Start Adventure Mode!
             </button>
